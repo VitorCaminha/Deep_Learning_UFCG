@@ -16,8 +16,8 @@ def net(x_train, y_train, x_test, y_test, epoch=5, activation='relu'):
     model = tf.keras.Model(inputs=x_input, outputs=logit)
 
     model.compile(loss='sparse_categorical_crossentropy',
-              optimizer=tf.keras.optimizers.RMSprop(learning_rate=0.01),
-              metrics=['sparse_categorical_accuracy'])
+              optimizer=tf.keras.optimizers.SGD(learning_rate=0.001),
+              metrics=['accuracy'])
 
     fit = model.fit(x_train, y_train,
                     batch_size=64,
@@ -47,11 +47,11 @@ if __name__ == '__main__':
     elu_train_score, elu_test_score = net(x_input, y_input, x_test, y_test, epoch, activation='elu')
 
     losses = [sig_train_score['loss'], tanh_train_score['loss'], relu_train_score['loss'], softmax_train_score['loss'], elu_train_score['loss']]
-    acc = 'sparse_categorical_accuracy'
+    acc = 'accuracy'
     accuracies = [sig_train_score[acc], tanh_train_score[acc], relu_train_score[acc], softmax_train_score[acc], elu_train_score[acc]]
     
     val_losses = [sig_train_score['val_loss'], tanh_train_score['val_loss'], relu_train_score['val_loss'], softmax_train_score['val_loss'], elu_train_score['val_loss']]
-    acc = 'val_sparse_categorical_accuracy'
+    acc = 'val_accuracy'
     val_accuracies = [sig_train_score[acc], tanh_train_score[acc], relu_train_score[acc], softmax_train_score[acc], elu_train_score[acc]]
 
     test_score = {'Sigmoid': sig_test_score, 'Tanh': tanh_test_score, 'ReLU': relu_test_score, 'Softmax': softmax_test_score, 'ELU': elu_test_score}
